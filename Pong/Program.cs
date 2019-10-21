@@ -7,7 +7,8 @@ namespace Pong
     {
         static void Main()
         {
-            
+            Game pongGame = new Game();
+            pongGame.Start();
         }
     }
 }
