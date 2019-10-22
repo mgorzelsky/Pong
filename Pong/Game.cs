@@ -11,14 +11,21 @@ namespace Pong
     
     class Game
     {
-        Ball ball = new Ball();
-        Paddle leftPaddle = new Paddle();
-        Paddle rightPaddle = new Paddle();
-
         public static int Width { get; set; }
         public static int Height { get; set; }
 
-        
+        Ball ball = new Ball();
+        Paddle leftPaddle;
+        Paddle rightPaddle;
+
+        public Game(int width, int height)
+        {
+            Width = width;
+            Height = height;
+            this.leftPaddle = new Paddle("left");
+            this.rightPaddle = new Paddle("right");
+        }
+
         public void Start()
         {
             Thread inputThread = new Thread(WaitForInput);
@@ -36,6 +43,11 @@ namespace Pong
                 for (int x = 0; x < Game.Width; x++)
                     internalState[x, Game.Height - 1] = ThingsToHit.Wall;
 
+                foreach (Point paddlePosition in leftPaddle.PaddlePosition)
+                {
+                    internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                }
+
                 internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
 
                 screenRenderer.DrawScreen(internalState);
@@ -50,7 +62,7 @@ namespace Pong
         {
             while (true)
             {
-                Console.WriteLine(Console.ReadKey(true));
+                Console.ReadKey(true);
             }
         }
     }
