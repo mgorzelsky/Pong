@@ -6,6 +6,6 @@ namespace Pong
 {
     class Paddle
     {
-        
+        //SOME CODE MAGIC
     }
 }
