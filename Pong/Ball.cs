@@ -6,16 +6,18 @@ using System.Timers;
 
 namespace Pong
 {
+    enum BallDirection { UpLeft, DownLeft, UpRight, DownRight };
     class Ball
     {
-        private Point ballPosition;
-        private int ballDirection;
+        //X COORD MUST BE EVEN TO START
+        private Point ballPosition = new Point(40, 14);
+        private BallDirection ballDirection;
         Random rnd = new Random();
         private readonly Timer timer = new Timer(150);
 
         public Ball() 
         {
-            ballDirection = rnd.Next(0,4);
+            ballDirection = (BallDirection)rnd.Next(0, 4);
             timer.Elapsed += OnTimedEvent;
             timer.Enabled = true;
         }
@@ -32,18 +34,60 @@ namespace Pong
         {
             switch (ballDirection)
             {
-                case (0): //up-left
-                    ballPosition.Offset(-1, 1);
+                case (BallDirection.UpLeft): //up-left
+                    ballPosition.Offset(-2, 1);
                     break;
-                case (1): //down-left
-                    ballPosition.Offset(-1, -1);
+                case (BallDirection.DownLeft): //down-left
+                    ballPosition.Offset(-2, -1);
                     break;
-                case (2): //up-right
-                    ballPosition.Offset(1, 1);
+                case (BallDirection.UpRight): //up-right
+                    ballPosition.Offset(2, 1);
                     break;
-                case (3): //down-right
-                    ballPosition.Offset(1, -1);
+                case (BallDirection.DownRight): //down-right
+                    ballPosition.Offset(2, -1);
                     break;
+            }
+        }
+
+        public void Bounce(ThingsToHit surface)
+        {
+            if (surface == ThingsToHit.Paddle)
+            {
+                switch (ballDirection)
+                {
+                    case (BallDirection.UpLeft):                  //up-left TO
+                        ballDirection = BallDirection.UpRight;    //up-right
+                        break;
+                    case (BallDirection.DownLeft):                //down-left TO
+                        ballDirection = BallDirection.DownRight;  //down-right
+                        break;
+                    case (BallDirection.UpRight):                 //up-right TO
+                        ballDirection = BallDirection.UpLeft;     //up-left
+                        break;
+                    case (BallDirection.DownRight):               //down-right TO
+                        ballDirection = BallDirection.DownLeft;   //down-left
+                        break;
+                }
+                Move();
+            }
+            if (surface == ThingsToHit.Wall)
+            {
+                switch (ballDirection)
+                {
+                    case (BallDirection.UpLeft):                 //up-left TO
+                        ballDirection = BallDirection.DownLeft;  //down-left
+                        break;
+                    case (BallDirection.DownLeft):               //down-left TO
+                        ballDirection = BallDirection.UpLeft;    //up-left
+                        break;
+                    case (BallDirection.UpRight):                 //up-right TO
+                        ballDirection = BallDirection.DownRight;  //down-right
+                        break;
+                    case (BallDirection.DownRight):               //down-right TO
+                        ballDirection = BallDirection.UpRight;    //up-right
+                        break;
+                }
+                Move();
             }
         }
     }
