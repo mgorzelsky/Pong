@@ -13,9 +13,7 @@ namespace Pong
             Console.Clear();
             Console.CursorVisible = false;
 
-            Game pongGame = new Game();
-            Game.Width = 81;
-            Game.Height = 31;
+            Game pongGame = new Game(71, 26);
             pongGame.Start();
         }
     }
