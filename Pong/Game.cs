@@ -62,7 +62,8 @@ namespace Pong
         {
             while (true)
             {
-                Console.ReadKey(true);
+                ConsoleKey keyPressed = Console.ReadKey(true).Key;
+                leftPaddle.PaddleMove(keyPressed);
             }
         }
     }

@@ -45,13 +45,19 @@ namespace Pong
         {
             if (keyPressed == ConsoleKey.UpArrow)
             {
-                paddleCenter++;
-                NewPaddlePosition();
+                if (paddleCenter > 3)
+                {
+                    paddleCenter--;
+                    NewPaddlePosition();
+                }
             }
             if (keyPressed == ConsoleKey.DownArrow)
             {
-                paddleCenter--;
-                NewPaddlePosition();
+                if (paddleCenter < Game.Height - 4)
+                {
+                    paddleCenter++;
+                    NewPaddlePosition();
+                }
             }
         }
     }
