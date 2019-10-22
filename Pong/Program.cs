@@ -5,13 +5,13 @@ namespace Pong
 {
     class Program
     {
+        //Clear the console and set CursorVisible to false so they do not visually distract.
+        //Instantiate the game, set the static variables for the size of game desired. Start the
+        //main game loop.
         static void Main()
         {
             Console.Clear();
             Console.CursorVisible = false;
-            //Console.SetWindowSize(1, 1);
-            //Console.SetBufferSize(81, 31);
-            //Console.SetWindowSize(81, 31);
 
             Game pongGame = new Game();
             Game.Width = 81;

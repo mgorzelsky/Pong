@@ -6,8 +6,9 @@ using System.Drawing;
 
 namespace Pong
 {
-    public delegate void ThreadStart();
+    //All the possible states of any poisition within the internalState[,]
     public enum ThingsToHit { Nothing, Wall, Paddle, Ball, Goal }
+    
     class Game
     {
         Ball ball = new Ball();
@@ -17,7 +18,7 @@ namespace Pong
         public static int Width { get; set; }
         public static int Height { get; set; }
 
-        //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
+        
         public void Start()
         {
             Thread inputThread = new Thread(WaitForInput);
@@ -26,6 +27,7 @@ namespace Pong
             ThingsToHit[,] internalState = new ThingsToHit[Game.Width, Game.Height];
             Renderer screenRenderer = new Renderer();
 
+            //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
             while (true)
             {
                 internalState = new ThingsToHit[Game.Width, Game.Height];
@@ -38,18 +40,17 @@ namespace Pong
 
                 screenRenderer.DrawScreen(internalState);
 
-                //Console.Clear();
-                //Console.SetCursorPosition(ball.BallPosition.X, ball.BallPosition.Y);
-                //Console.Write("o");
                 Thread.Sleep(1000/60000);
             }
         }
 
+        //Loop waiting for player input. On a seperate thread so it can be killed when the game over state is
+        //reached and it doesn't hang up the game state progression at the ReadKey().
         private void WaitForInput()
         {
             while (true)
             {
-                Console.WriteLine(Console.ReadKey());
+                Console.WriteLine(Console.ReadKey(true));
             }
         }
     }

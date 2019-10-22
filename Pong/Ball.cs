@@ -15,6 +15,7 @@ namespace Pong
         private readonly Timer timer = new Timer(150);
         private int angle;
 
+        //Set a random starting direction and set up the timer used to handle ball movement on object creation.
         public Ball() 
         {
             ballDirection = (BallDirection)rnd.Next(0, 4);
@@ -30,6 +31,8 @@ namespace Pong
             Move();
         }
 
+        //On timed event update the ballposition. The angle is based on a randomly generated direction that changes 
+        //each time the ball bounces off a paddle. Angle stays constant through wall bounces.
         private void Move()
         {
             if (angle % 2 == 0)     //flatter angler
@@ -87,6 +90,9 @@ namespace Pong
             CollisionCheck();
         }
 
+        //When collision is detected to a wall or paddle the bounce method is called to change the angle
+        //of movement. If it is a paddle bounce the angle variable is randomized to choose either a flat
+        //or sharp angle.
         public void Bounce(ThingsToHit surface)
         {
             if (surface == ThingsToHit.Paddle)
@@ -107,7 +113,6 @@ namespace Pong
                         break;
                 }
                 angle = rnd.Next(0, 100);
-                //Move();
             }
             if (surface == ThingsToHit.Wall)
             {
@@ -126,9 +131,9 @@ namespace Pong
                         ballDirection = BallDirection.UpRight;    //up-right
                         break;
                 }
-                //Move();
             }
         }
+        //Ball handles its own collision check to see if it has hit a wall, paddle, or goal area.
         private void CollisionCheck()
         {
             if (BallPosition.X >= Game.Width - 1 || BallPosition.X <= 0)
