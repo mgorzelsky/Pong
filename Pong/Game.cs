@@ -13,6 +13,10 @@ namespace Pong
         Ball ball = new Ball();
         Paddle leftPaddle = new Paddle();
         Paddle rightPaddle = new Paddle();
+
+        public static int Width { get; set; }
+        public static int Height { get; set; }
+
         //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
         public void Start()
         {
@@ -21,8 +25,8 @@ namespace Pong
 
             while (true)
             {
-                CollisionCheck();
-                Console.Clear();
+                //CollisionCheck();
+                //Console.Clear();
                 Console.SetCursorPosition(ball.BallPosition.X, ball.BallPosition.Y);
                 Console.Write("o");
                 Thread.Sleep(1000/60000);
@@ -37,12 +41,12 @@ namespace Pong
             }
         }
 
-        private void CollisionCheck()
-        {
-            if (ball.BallPosition.X >= 80 || ball.BallPosition.X <= 0)
-                ball.Bounce(ThingsToHit.Paddle);
-            if (ball.BallPosition.Y >= 30 || ball.BallPosition.Y <= 0)
-                ball.Bounce(ThingsToHit.Wall);
-        }
+        //private void CollisionCheck()
+        //{
+        //    if (ball.BallPosition.X >= 80 || ball.BallPosition.X <= 0)
+        //        ball.Bounce(ThingsToHit.Paddle);
+        //    if (ball.BallPosition.Y >= 30 || ball.BallPosition.Y <= 0)
+        //        ball.Bounce(ThingsToHit.Wall);
+        //}
     }
 }
