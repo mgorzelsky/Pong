@@ -9,7 +9,7 @@ namespace Pong
     enum BallDirection { UpLeft, DownLeft, UpRight, DownRight };
     class Ball
     {
-        //X COORD MUST BE EVEN TO START
+        //X COORD MUST BE EVEN TO START (working on a better way to do this).
         private Point ballPosition = new Point(40, 14);
         private BallDirection ballDirection;
         Random rnd = new Random();
@@ -68,7 +68,7 @@ namespace Pong
                         ballDirection = BallDirection.DownLeft;   //down-left
                         break;
                 }
-                Move();
+                //Move();
             }
             if (surface == ThingsToHit.Wall)
             {
@@ -87,7 +87,7 @@ namespace Pong
                         ballDirection = BallDirection.UpRight;    //up-right
                         break;
                 }
-                Move();
+                //Move();
             }
         }
     }
