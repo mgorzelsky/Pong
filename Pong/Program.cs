@@ -12,10 +12,12 @@ namespace Pong
             Console.SetWindowSize(1, 1);
             //Console size must be odd numbers so that when adjusted for off-by-one it is in an even range
             //See Ball.Move()
-            Console.SetBufferSize(81, 31);
-            Console.SetWindowSize(81, 31);
+            Console.SetBufferSize(80, 30);
+            Console.SetWindowSize(80, 30);
 
             Game pongGame = new Game();
+            Game.Width = 80;
+            Game.Height = 30;
             pongGame.Start();
         }
     }
