@@ -35,7 +35,7 @@ namespace Pong
                 int arrayPosition = 0;
                 for (int i = paddleCenter - 2; i < paddleCenter + 3; i++)
                 {
-                    PaddlePosition[arrayPosition] = new Point(Game.Height - 1, i);
+                    PaddlePosition[arrayPosition] = new Point(Game.Width - 1, i);
                     arrayPosition++;
                 }
             }
@@ -43,20 +43,42 @@ namespace Pong
 
         public void PaddleMove(ConsoleKey keyPressed)
         {
-            if (keyPressed == ConsoleKey.UpArrow)
+            if (paddleSide == "right")
             {
-                if (paddleCenter > 3)
+                if (keyPressed == ConsoleKey.UpArrow)
                 {
-                    paddleCenter--;
-                    NewPaddlePosition();
+                    if (paddleCenter > 2)
+                    {
+                        paddleCenter--;
+                        NewPaddlePosition();
+                    }
+                }
+                if (keyPressed == ConsoleKey.DownArrow)
+                {
+                    if (paddleCenter < Game.Height - 3)
+                    {
+                        paddleCenter++;
+                        NewPaddlePosition();
+                    }
                 }
             }
-            if (keyPressed == ConsoleKey.DownArrow)
+            if (paddleSide == "left")
             {
-                if (paddleCenter < Game.Height - 4)
+                if (keyPressed == ConsoleKey.A)
                 {
-                    paddleCenter++;
-                    NewPaddlePosition();
+                    if (paddleCenter > 2)
+                    {
+                        paddleCenter--;
+                        NewPaddlePosition();
+                    }
+                }
+                if (keyPressed == ConsoleKey.Z)
+                {
+                    if (paddleCenter < Game.Height - 3)
+                    {
+                        paddleCenter++;
+                        NewPaddlePosition();
+                    }
                 }
             }
         }

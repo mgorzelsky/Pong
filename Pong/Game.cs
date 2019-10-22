@@ -43,11 +43,17 @@ namespace Pong
                 for (int x = 0; x < Game.Width; x++)
                     internalState[x, Game.Height - 1] = ThingsToHit.Wall;
 
+                //Place the left paddle into the internalState array
                 foreach (Point paddlePosition in leftPaddle.PaddlePosition)
                 {
                     internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
                 }
-
+                //Place the right paddle into the internalState array
+                foreach (Point paddlePosition in rightPaddle.PaddlePosition)
+                {
+                    internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                }
+                //Place the ball into the internalState array
                 internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
 
                 screenRenderer.DrawScreen(internalState);
@@ -64,6 +70,7 @@ namespace Pong
             {
                 ConsoleKey keyPressed = Console.ReadKey(true).Key;
                 leftPaddle.PaddleMove(keyPressed);
+                rightPaddle.PaddleMove(keyPressed);
             }
         }
     }
