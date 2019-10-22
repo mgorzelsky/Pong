@@ -9,11 +9,12 @@ namespace Pong
     enum BallDirection { UpLeft, DownLeft, UpRight, DownRight };
     class Ball
     {
-        //X COORD MUST BE EVEN TO START (working on a better way to do this).
-        private Point ballPosition = new Point(40, 14);
+        //X COORD MUST BE EVEN TO START
+        private Point ballPosition = new Point(39, 15);
         private BallDirection ballDirection;
         Random rnd = new Random();
         private readonly Timer timer = new Timer(150);
+        private int angle;
 
         public Ball() 
         {
@@ -32,21 +33,59 @@ namespace Pong
 
         private void Move()
         {
-            switch (ballDirection)
+            if (angle % 2 == 0)     //flatter angler
             {
-                case (BallDirection.UpLeft): //up-left
-                    ballPosition.Offset(-2, 1);
-                    break;
-                case (BallDirection.DownLeft): //down-left
-                    ballPosition.Offset(-2, -1);
-                    break;
-                case (BallDirection.UpRight): //up-right
-                    ballPosition.Offset(2, 1);
-                    break;
-                case (BallDirection.DownRight): //down-right
-                    ballPosition.Offset(2, -1);
-                    break;
+                switch (ballDirection)
+                {
+                    case (BallDirection.UpLeft): //up-left
+                        ballPosition.Offset(-2, 1);
+                        if (ballPosition.X < 0)
+                            ballPosition.X = 0;
+                        break;
+                    case (BallDirection.DownLeft): //down-left
+                        ballPosition.Offset(-2, -1);
+                        if (ballPosition.X < 0)
+                            ballPosition.X = 0;
+                        break;
+                    case (BallDirection.UpRight): //up-right
+                        ballPosition.Offset(2, 1);
+                        if (ballPosition.X > Game.Width - 1)
+                            ballPosition.X = Game.Width - 1;
+                        break;
+                    case (BallDirection.DownRight): //down-right
+                        ballPosition.Offset(2, -1);
+                        if (ballPosition.X > Game.Width - 1)
+                            ballPosition.X = Game.Width - 1;
+                        break;
+                }
             }
+            else     //sharper angle
+            {
+                switch (ballDirection)
+                {
+                    case (BallDirection.UpLeft): //up-left
+                        ballPosition.Offset(-1, 1);
+                        if (ballPosition.X < 0)
+                            ballPosition.X = 0;
+                        break;
+                    case (BallDirection.DownLeft): //down-left
+                        ballPosition.Offset(-1, -1);
+                        if (ballPosition.X < 0)
+                            ballPosition.X = 0;
+                        break;
+                    case (BallDirection.UpRight): //up-right
+                        ballPosition.Offset(1, 1);
+                        if (ballPosition.X > Game.Width - 1)
+                            ballPosition.X = Game.Width - 1;
+                        break;
+                    case (BallDirection.DownRight): //down-right
+                        ballPosition.Offset(1, -1);
+                        if (ballPosition.X > Game.Width - 1)
+                            ballPosition.X = Game.Width - 1;
+                        break;
+                }
+            }
+            CollisionCheck();
         }
 
         public void Bounce(ThingsToHit surface)
@@ -68,6 +107,7 @@ namespace Pong
                         ballDirection = BallDirection.DownLeft;   //down-left
                         break;
                 }
+                angle = rnd.Next(0, 100);
                 //Move();
             }
             if (surface == ThingsToHit.Wall)
@@ -89,6 +129,13 @@ namespace Pong
                 }
                 //Move();
             }
+        }
+        private void CollisionCheck()
+        {
+            if (BallPosition.X >= Game.Width - 1 || BallPosition.X <= 0)
+                Bounce(ThingsToHit.Paddle);
+            if (BallPosition.Y >= Game.Height - 1 || BallPosition.Y <= 0)
+                Bounce(ThingsToHit.Wall);
         }
     }
 }

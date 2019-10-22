@@ -7,18 +7,17 @@ namespace Pong
     {
         static void Main()
         {
-            //Console size must be odd numbers so that when adjusted for off-by-one it is in an even range
-            //See Ball.Move()
-            int height = 31;
-            int width = 81;
-            
             Console.Clear();
             Console.CursorVisible = false;
             Console.SetWindowSize(1, 1);
-            Console.SetBufferSize(width, height + 1);
-            Console.SetWindowSize(width, height + 1);
+            //Console size must be odd numbers so that when adjusted for off-by-one it is in an even range
+            //See Ball.Move()
+            Console.SetBufferSize(80, 30);
+            Console.SetWindowSize(80, 30);
 
-            Game pongGame = new Game(width, height);
+            Game pongGame = new Game();
+            Game.Width = 80;
+            Game.Height = 30;
             pongGame.Start();
         }
     }
