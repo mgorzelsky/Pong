@@ -9,8 +9,7 @@ namespace Pong
     enum BallDirection { UpLeft, DownLeft, UpRight, DownRight };
     class Ball
     {
-        //X COORD MUST BE EVEN TO START
-        private Point ballPosition = new Point(39, 15);
+        private Point ballPosition = new Point(40, 15);
         private BallDirection ballDirection;
         Random rnd = new Random();
         private readonly Timer timer = new Timer(150);
