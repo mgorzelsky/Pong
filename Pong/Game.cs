@@ -43,6 +43,8 @@ namespace Pong
                 for (int x = 0; x < Game.Width; x++)
                     internalState[x, Game.Height - 1] = ThingsToHit.Wall;
 
+
+
                 //Place the left paddle into the internalState array
                 foreach (Point paddlePosition in leftPaddle.PaddlePosition)
                 {

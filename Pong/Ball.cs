@@ -138,6 +138,8 @@ namespace Pong
         {
             if (BallPosition.X >= Game.Width - 1 || BallPosition.X <= 0)
                 Bounce(ThingsToHit.Paddle);
+
+            //Does the ball hit a wall?
             if (BallPosition.Y >= Game.Height - 1 || BallPosition.Y <= 0)
                 Bounce(ThingsToHit.Wall);
         }
