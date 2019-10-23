@@ -45,8 +45,8 @@ namespace Pong
                 for (int x = 0; x < Game.Width; x++)
                     internalState[x, Game.Height - 1] = ThingsToHit.Wall;
 
-
-
+                //set the goal fields
+                SetGoalLines();
                 //Place the left paddle into the internalState array
                 foreach (Point paddlePosition in leftPaddle.PaddlePosition)
                 {
@@ -59,9 +59,6 @@ namespace Pong
                 }
                 //Place the ball into the internalState array
                 internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
-
-                //set the goal fields
-                SetGoalLines();
 
                 screenRenderer.DrawScreen(internalState);
 
