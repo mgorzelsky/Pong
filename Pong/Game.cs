@@ -67,7 +67,7 @@ namespace Pong
                     //Place the ball into the internalState array
                     internalState[ball.BallPosition.X, ball.BallPosition.Y] = GameItems.Ball;
 
-                    screenRenderer.DrawScreen(internalState);
+                    screenRenderer.DrawGame(internalState);
                     Console.SetCursorPosition(0, Height);
                     Console.Write("Score: " + leftScore);
                     Console.SetCursorPosition(Width - 8, Height);
@@ -94,7 +94,7 @@ namespace Pong
                     noWinner = false;
             }
 
-            screenRenderer.DrawScreen(internalState);
+            screenRenderer.DrawGame(internalState);
             Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
             Console.Write("Winner!");
             if (leftScore == 3)

@@ -6,7 +6,7 @@ namespace Pong
 {
     public class Renderer
     {
-        public void DrawScreen(GameItems [,] internalState)
+        public void DrawGame(GameItems [,] screenArray)
         {
             StringBuilder screenAsString = new StringBuilder("", Game.Width * Game.Height);
             char currentCharacter = Convert.ToChar(32);
@@ -14,7 +14,7 @@ namespace Pong
             {
                 for (int x = 0; x < Game.Width; x++)
                 {
-                    switch (internalState[x, y])
+                    switch (screenArray[x, y])
                     {
                         case (GameItems.Nothing):
                             currentCharacter = Convert.ToChar(32);
@@ -38,6 +38,20 @@ namespace Pong
             }
             Console.SetCursorPosition(0, 0);
             Console.Write(screenAsString);
+        }
+
+        public void DrawGenericScreen(string thingToDraw, int widthOffset, int heightOffset)
+        {
+            Console.SetCursorPosition(widthOffset, heightOffset + 1);
+            foreach (char character in thingToDraw)
+            {
+                if (character.Equals('\a'))
+                {
+                    heightOffset++;
+                    Console.SetCursorPosition(widthOffset, heightOffset + 1);
+                }
+                    Console.Write(character);
+            }
         }
     }
 }

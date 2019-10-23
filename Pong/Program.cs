@@ -12,8 +12,24 @@ namespace Pong
         {
             Console.Clear();
             Console.CursorVisible = false;
+            int width = 71;
+            int height = 26;
 
-            Game pongGame = new Game(71, 26);
+            string pongLogo = @"//==\\  //====\\  ||      ||   //===\\"  + "\a" +
+                              @"||  ||  ||    ||  ||\\    ||  //"        + "\a" +
+                              @"||==//  ||    ||  ||  \\  ||  ||   ===\" + "\a" +
+                              @"||      ||    ||  ||    \\||  \\     //" + "\a" +
+                              @"||      \\====//  ||      ||   \\===//"  + "\a";
+            string contributers = "Contributers: Michael Gorzelsky";
+
+            Renderer renderer = new Renderer();
+            renderer.DrawGenericScreen(pongLogo, width/3, 0);
+            renderer.DrawGenericScreen(contributers, width / 3 + 2, height - 1);
+            
+            
+            Thread.Sleep(5000);
+
+            Game pongGame = new Game(width, height);
             pongGame.Start();
         }
     }
