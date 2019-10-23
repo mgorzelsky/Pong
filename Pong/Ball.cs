@@ -137,12 +137,17 @@ namespace Pong
         //Ball handles its own collision check to see if it has hit a wall, paddle, or goal area.
         private void CollisionCheck()
         {
-            if (BallPosition.X >= Game.Width - 1 || BallPosition.X <= 0)
+            //Does the ball hit a paddle?
+            if (CollisionObjects[BallPosition.X, BallPosition.Y] == ThingsToHit.Paddle)
                 Bounce(ThingsToHit.Paddle);
 
             //Does the ball hit a wall?
             if (BallPosition.Y >= Game.Height - 1 || BallPosition.Y <= 0)
                 Bounce(ThingsToHit.Wall);
+
+            //Does the ball hit a goal?
+            if (CollisionObjects[BallPosition.X, BallPosition.Y] == ThingsToHit.Goal)
+                Game.gameRunning = false;
         }
     }
 }
