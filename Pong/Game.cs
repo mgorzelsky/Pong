@@ -19,6 +19,8 @@ namespace Pong
         Paddle leftPaddle;
         Paddle rightPaddle;
         ThingsToHit[,] internalState;
+        private int leftScore = 0;
+        private int rightScore = 0;
 
         public Game(int width, int height)
         {
@@ -67,7 +69,15 @@ namespace Pong
                 Thread.Sleep(1000/60000);
             }
 
-            Console.WriteLine("Round Complete!");
+            //Increment the score for the winner of round
+            if (ball.BallPosition.X == 0)
+                rightScore++;
+            if (ball.BallPosition.X == Game.Width - 1)
+                leftScore++;
+            Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
+            Console.Write("Round Complete!");
+            Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+            Console.Write("Left Score: " + leftScore + "  Right Score: " + rightScore);
         }
 
         private void SetGoalLines()
