@@ -93,6 +93,22 @@ namespace Pong
                 if (rightScore == 3 || leftScore == 3)
                     noWinner = false;
             }
+
+            screenRenderer.DrawScreen(internalState);
+            Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
+            Console.Write("Winner!");
+            if (leftScore == 3)
+            {
+                Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+                Console.Write("Left player!");
+            }
+            if (rightScore == 3)
+            {
+                Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+                Console.Write("Right player!");
+            }
+            
+            Thread.Sleep(3000);
         }
 
         private void SetGoalLines()
