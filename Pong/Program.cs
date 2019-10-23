@@ -21,12 +21,15 @@ namespace Pong
                               @"||      ||    ||  ||    \\||  \\     //" + "\a" +
                               @"||      \\====//  ||      ||   \\===//"  + "\a";
             string contributers = "Contributers: Michael Gorzelsky";
+            string instructions = "Left paddle A/D for up/down    :    Right paddle UpArrow/DownArrow";
 
             Renderer renderer = new Renderer();
             renderer.DrawGenericScreen(pongLogo, width/3, 0);
             renderer.DrawGenericScreen(contributers, width / 3 + 2, height - 1);
+            renderer.DrawGenericScreen(instructions, width / 7, height / 2);
             
             
+
             Thread.Sleep(5000);
 
             bool playAgain = true;
