@@ -13,7 +13,7 @@ namespace Pong
     {
         public static int Width { get; set; }
         public static int Height { get; set; }
-        public static bool gameRunning = true;
+        public static bool roundRunning = true;
 
         Ball ball = new Ball();
         Paddle leftPaddle;
@@ -21,6 +21,7 @@ namespace Pong
         ThingsToHit[,] internalState;
         private int leftScore = 0;
         private int rightScore = 0;
+        private bool noWinner = true;
 
         public Game(int width, int height)
         {
@@ -38,52 +39,62 @@ namespace Pong
             internalState = new ThingsToHit[Game.Width, Game.Height];
             Renderer screenRenderer = new Renderer();
 
-            //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
-            while (gameRunning)
+            while (noWinner)
             {
-                internalState = new ThingsToHit[Game.Width, Game.Height];
-                for (int x = 0; x < Game.Width; x++)
-                    internalState[x, 0] = ThingsToHit.Wall;
-                for (int x = 0; x < Game.Width; x++)
-                    internalState[x, Game.Height - 1] = ThingsToHit.Wall;
-
-                //set the goal fields
-                SetGoalLines();
-                //Place the left paddle into the internalState array
-                foreach (Point paddlePosition in leftPaddle.PaddlePosition)
+                Console.Clear();
+                ball.Serve();
+                //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
+                while (roundRunning)
                 {
-                    internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                    internalState = new ThingsToHit[Game.Width, Game.Height];
+                    for (int x = 0; x < Game.Width; x++)
+                        internalState[x, 0] = ThingsToHit.Wall;
+                    for (int x = 0; x < Game.Width; x++)
+                        internalState[x, Game.Height - 1] = ThingsToHit.Wall;
+
+                    //set the goal fields
+                    SetGoalLines();
+                    //Place the left paddle into the internalState array
+                    foreach (Point paddlePosition in leftPaddle.PaddlePosition)
+                    {
+                        internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                    }
+                    //Place the right paddle into the internalState array
+                    foreach (Point paddlePosition in rightPaddle.PaddlePosition)
+                    {
+                        internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                    }
+                    //Place the ball into the internalState array
+                    internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
+
+                    screenRenderer.DrawScreen(internalState);
+
+                    ball.CollisionObjects = internalState;
+
+                    Thread.Sleep(1000 / 60000);
                 }
-                //Place the right paddle into the internalState array
-                foreach (Point paddlePosition in rightPaddle.PaddlePosition)
-                {
-                    internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
-                }
-                //Place the ball into the internalState array
-                internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
 
-                screenRenderer.DrawScreen(internalState);
+                //Increment the score for the winner of round
+                if (ball.BallPosition.X == 0)
+                    rightScore++;
+                if (ball.BallPosition.X == Game.Width - 1)
+                    leftScore++;
+                Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
+                Console.Write("Round Complete!");
+                Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+                Console.Write("Left Score: " + leftScore + "  Right Score: " + rightScore);
+                Thread.Sleep(2000);
+                roundRunning = true;
 
-                ball.CollisionObjects = internalState;
-
-                Thread.Sleep(1000/60000);
+                if (rightScore == 3 || leftScore == 3)
+                    noWinner = false;
             }
-
-            //Increment the score for the winner of round
-            if (ball.BallPosition.X == 0)
-                rightScore++;
-            if (ball.BallPosition.X == Game.Width - 1)
-                leftScore++;
-            Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
-            Console.Write("Round Complete!");
-            Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
-            Console.Write("Left Score: " + leftScore + "  Right Score: " + rightScore);
         }
 
         private void SetGoalLines()
         {
             //left goal
-            for (int y = 0; y < Game.Height; y++)
+            for (int y = 1; y < Game.Height - 1; y++)
             {
                 if (internalState[0, y] != ThingsToHit.Paddle)
                 {
@@ -91,7 +102,7 @@ namespace Pong
                 }
             }
             //right goal
-            for (int y = 0; y < Game.Height; y++)
+            for (int y = 1; y < Game.Height - 1; y++)
             {
                 if (internalState[Game.Width - 1, y] != ThingsToHit.Paddle)
                 {
