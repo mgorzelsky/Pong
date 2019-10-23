@@ -24,7 +24,7 @@ namespace Pong
 
         public Point BallPosition { get => ballPosition; }
 
-        public ThingsToHit[,] CollisionObjects { get; set; }
+        public GameItems[,] CollisionObjects { get; set; }
 
         public void Serve()
         {
@@ -100,9 +100,9 @@ namespace Pong
         //When collision is detected to a wall or paddle the bounce method is called to change the angle
         //of movement. If it is a paddle bounce the angle variable is randomized to choose either a flat
         //or sharp angle.
-        public void Bounce(ThingsToHit surface)
+        public void Bounce(GameItems surface)
         {
-            if (surface == ThingsToHit.Paddle)
+            if (surface == GameItems.Paddle)
             {
                 switch (ballDirection)
                 {
@@ -121,7 +121,7 @@ namespace Pong
                 }
                 angle = rnd.Next(0, 100);
             }
-            if (surface == ThingsToHit.Wall)
+            if (surface == GameItems.Wall)
             {
                 switch (ballDirection)
                 {
@@ -144,15 +144,15 @@ namespace Pong
         private void CollisionCheck()
         {
             //Does the ball hit a paddle?
-            if (CollisionObjects[BallPosition.X, BallPosition.Y] == ThingsToHit.Paddle)
-                Bounce(ThingsToHit.Paddle);
+            if (CollisionObjects[BallPosition.X, BallPosition.Y] == GameItems.Paddle)
+                Bounce(GameItems.Paddle);
 
             //Does the ball hit a wall?
             if (BallPosition.Y >= Game.Height - 1 || BallPosition.Y <= 0)
-                Bounce(ThingsToHit.Wall);
+                Bounce(GameItems.Wall);
 
             //Does the ball hit a goal?
-            if (CollisionObjects[BallPosition.X, BallPosition.Y] == ThingsToHit.Goal)
+            if (CollisionObjects[BallPosition.X, BallPosition.Y] == GameItems.Goal)
             {
                 Game.roundRunning = false;
                 timer.Stop();

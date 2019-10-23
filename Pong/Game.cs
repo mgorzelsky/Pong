@@ -7,7 +7,7 @@ using System.Drawing;
 namespace Pong
 {
     //All the possible states of any poisition within the internalState[,]
-    public enum ThingsToHit { Nothing, Wall, Paddle, Ball, Goal }
+    public enum GameItems { Nothing, Wall, Paddle, Ball, Goal }
     
     class Game
     {
@@ -18,7 +18,7 @@ namespace Pong
         Ball ball = new Ball();
         Paddle leftPaddle;
         Paddle rightPaddle;
-        ThingsToHit[,] internalState;
+        GameItems[,] internalState;
         private int leftScore = 0;
         private int rightScore = 0;
         private bool noWinner = true;
@@ -36,7 +36,7 @@ namespace Pong
             Thread inputThread = new Thread(WaitForInput);
             inputThread.Start();
 
-            internalState = new ThingsToHit[Game.Width, Game.Height];
+            internalState = new GameItems[Game.Width, Game.Height];
             Renderer screenRenderer = new Renderer();
 
             while (noWinner)
@@ -46,26 +46,26 @@ namespace Pong
                 //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
                 while (roundRunning)
                 {
-                    internalState = new ThingsToHit[Game.Width, Game.Height];
+                    internalState = new GameItems[Game.Width, Game.Height];
                     for (int x = 0; x < Game.Width; x++)
-                        internalState[x, 0] = ThingsToHit.Wall;
+                        internalState[x, 0] = GameItems.Wall;
                     for (int x = 0; x < Game.Width; x++)
-                        internalState[x, Game.Height - 1] = ThingsToHit.Wall;
+                        internalState[x, Game.Height - 1] = GameItems.Wall;
 
                     //set the goal fields
                     SetGoalLines();
                     //Place the left paddle into the internalState array
                     foreach (Point paddlePosition in leftPaddle.PaddlePosition)
                     {
-                        internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                        internalState[paddlePosition.X, paddlePosition.Y] = GameItems.Paddle;
                     }
                     //Place the right paddle into the internalState array
                     foreach (Point paddlePosition in rightPaddle.PaddlePosition)
                     {
-                        internalState[paddlePosition.X, paddlePosition.Y] = ThingsToHit.Paddle;
+                        internalState[paddlePosition.X, paddlePosition.Y] = GameItems.Paddle;
                     }
                     //Place the ball into the internalState array
-                    internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
+                    internalState[ball.BallPosition.X, ball.BallPosition.Y] = GameItems.Ball;
 
                     screenRenderer.DrawScreen(internalState);
                     Console.SetCursorPosition(0, Height);
@@ -100,17 +100,17 @@ namespace Pong
             //left goal
             for (int y = 1; y < Game.Height - 1; y++)
             {
-                if (internalState[0, y] != ThingsToHit.Paddle)
+                if (internalState[0, y] != GameItems.Paddle)
                 {
-                    internalState[0, y] = ThingsToHit.Goal;
+                    internalState[0, y] = GameItems.Goal;
                 }
             }
             //right goal
             for (int y = 1; y < Game.Height - 1; y++)
             {
-                if (internalState[Game.Width - 1, y] != ThingsToHit.Paddle)
+                if (internalState[Game.Width - 1, y] != GameItems.Paddle)
                 {
-                    internalState[Game.Width - 1, y] = ThingsToHit.Goal;
+                    internalState[Game.Width - 1, y] = GameItems.Goal;
                 }
             }
         }

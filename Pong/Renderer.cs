@@ -6,7 +6,7 @@ namespace Pong
 {
     public class Renderer
     {
-        public void DrawScreen(ThingsToHit [,] internalState)
+        public void DrawScreen(GameItems [,] internalState)
         {
             StringBuilder screenAsString = new StringBuilder("", Game.Width * Game.Height);
             char currentCharacter = Convert.ToChar(32);
@@ -16,19 +16,19 @@ namespace Pong
                 {
                     switch (internalState[x, y])
                     {
-                        case (ThingsToHit.Nothing):
+                        case (GameItems.Nothing):
                             currentCharacter = Convert.ToChar(32);
                             break;
-                        case (ThingsToHit.Paddle):
+                        case (GameItems.Paddle):
                             currentCharacter = '|';
                             break;
-                        case (ThingsToHit.Wall):
+                        case (GameItems.Wall):
                             currentCharacter = '-';
                             break;
-                        case (ThingsToHit.Ball):
+                        case (GameItems.Ball):
                             currentCharacter = 'o';
                             break;
-                        case (ThingsToHit.Goal):
+                        case (GameItems.Goal):
                             currentCharacter = Convert.ToChar(32);
                             break;
                     }
