@@ -108,9 +108,10 @@ namespace Pong
                 Console.Write("Right player!");
             }
 
-            Thread.Sleep(3000);
             Console.SetCursorPosition(Width / 3, Height - 2);
             Console.Write("Press any key to continue");
+            //Thread.Sleep(3000);
+            inputThread.Join();
         }
 
         private void SetGoalLines()

@@ -29,8 +29,37 @@ namespace Pong
             
             Thread.Sleep(5000);
 
-            Game pongGame = new Game(width, height);
-            pongGame.Start();
+            bool playAgain = true;
+            while (playAgain)
+            {
+                Console.CursorVisible = false;
+                bool validChoice = false;
+                Game pongGame = new Game(width, height);
+                pongGame.Start();
+
+                Console.Clear();
+                Console.SetCursorPosition(width / 3, height / 2);
+                Console.Write("Play Again? Y/N");
+                Console.CursorVisible = true;
+                Console.SetCursorPosition((width / 3) + 8, (height / 2) + 1);
+                ConsoleKey playerChoice = Console.ReadKey(true).Key;
+
+                while (!validChoice)
+                {
+                    if (playerChoice == ConsoleKey.Y)
+                    {
+                        playAgain = true;
+                        validChoice = true;
+                    }
+                    else if (playerChoice == ConsoleKey.N)
+                    {
+                        playAgain = false;
+                        validChoice = true;
+                    }
+                    else
+                        validChoice = false;
+                }
+            }
         }
     }
 }
