@@ -68,6 +68,10 @@ namespace Pong
                     internalState[ball.BallPosition.X, ball.BallPosition.Y] = ThingsToHit.Ball;
 
                     screenRenderer.DrawScreen(internalState);
+                    Console.SetCursorPosition(0, Height);
+                    Console.Write("Score: " + leftScore);
+                    Console.SetCursorPosition(Width - 8, Height);
+                    Console.Write("Score: " + rightScore);
 
                     ball.CollisionObjects = internalState;
 
