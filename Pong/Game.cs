@@ -60,6 +60,8 @@ namespace Pong
 
                 screenRenderer.DrawScreen(internalState);
 
+                ball.CollisionObjects = internalState;
+
                 Thread.Sleep(1000/60000);
             }
         }

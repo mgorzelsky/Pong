@@ -16,15 +16,16 @@ namespace Pong
         private int angle;
 
         //Set a random starting direction and set up the timer used to handle ball movement on object creation.
-        public Ball() 
+        public Ball()
         {
             ballDirection = (BallDirection)rnd.Next(0, 4);
             timer.Elapsed += OnTimedEvent;
             timer.Enabled = true;
         }
 
-
         public Point BallPosition { get => ballPosition; }
+
+        public ThingsToHit[,] CollisionObjects { get; set; }
         
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
