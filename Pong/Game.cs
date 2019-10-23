@@ -36,7 +36,7 @@ namespace Pong
             Thread inputThread = new Thread(WaitForInput);
             inputThread.Start();
 
-            internalState = new GameItems[Game.Width, Game.Height];
+            internalState = new GameItems[Width, Height];
             Renderer screenRenderer = new Renderer();
 
             while (noWinner)
@@ -46,11 +46,11 @@ namespace Pong
                 //Main gameplay loop. Updates every 1/60th of a second for a 60 hz refresh rate.
                 while (roundRunning)
                 {
-                    internalState = new GameItems[Game.Width, Game.Height];
-                    for (int x = 0; x < Game.Width; x++)
+                    internalState = new GameItems[Width, Height];
+                    for (int x = 0; x < Width; x++)
                         internalState[x, 0] = GameItems.Wall;
-                    for (int x = 0; x < Game.Width; x++)
-                        internalState[x, Game.Height - 1] = GameItems.Wall;
+                    for (int x = 0; x < Width; x++)
+                        internalState[x, Height - 1] = GameItems.Wall;
 
                     //set the goal fields
                     SetGoalLines();
@@ -81,11 +81,11 @@ namespace Pong
                 //Increment the score for the winner of round
                 if (ball.BallPosition.X == 0)
                     rightScore++;
-                if (ball.BallPosition.X == Game.Width - 1)
+                if (ball.BallPosition.X == Width - 1)
                     leftScore++;
-                Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
+                Console.SetCursorPosition(Width / 3, Height / 2);
                 Console.Write("Round Complete!");
-                Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+                Console.SetCursorPosition(Width / 3, (Height / 2) + 1);
                 Console.Write("Left Score: " + leftScore + "  Right Score: " + rightScore);
                 Thread.Sleep(2000);
                 roundRunning = true;
@@ -95,26 +95,28 @@ namespace Pong
             }
 
             screenRenderer.DrawGame(internalState);
-            Console.SetCursorPosition(Game.Width / 4, Game.Height / 2);
+            Console.SetCursorPosition(Width / 3, Height / 2);
             Console.Write("Winner!");
             if (leftScore == 3)
             {
-                Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+                Console.SetCursorPosition(Width / 3, (Height / 2) + 1);
                 Console.Write("Left player!");
             }
             if (rightScore == 3)
             {
-                Console.SetCursorPosition(Game.Width / 4, (Game.Height / 2) + 1);
+                Console.SetCursorPosition(Width / 3, (Height / 2) + 1);
                 Console.Write("Right player!");
             }
-            
+
             Thread.Sleep(3000);
+            Console.SetCursorPosition(Width / 3, Height - 2);
+            Console.Write("Press any key to continue");
         }
 
         private void SetGoalLines()
         {
             //left goal
-            for (int y = 1; y < Game.Height - 1; y++)
+            for (int y = 1; y < Height - 1; y++)
             {
                 if (internalState[0, y] != GameItems.Paddle)
                 {
@@ -122,11 +124,11 @@ namespace Pong
                 }
             }
             //right goal
-            for (int y = 1; y < Game.Height - 1; y++)
+            for (int y = 1; y < Height - 1; y++)
             {
-                if (internalState[Game.Width - 1, y] != GameItems.Paddle)
+                if (internalState[Width - 1, y] != GameItems.Paddle)
                 {
-                    internalState[Game.Width - 1, y] = GameItems.Goal;
+                    internalState[Width - 1, y] = GameItems.Goal;
                 }
             }
         }
@@ -135,7 +137,7 @@ namespace Pong
         //reached and it doesn't hang up the game state progression at the ReadKey().
         private void WaitForInput()
         {
-            while (true)
+            while (noWinner)
             {
                 ConsoleKey keyPressed = Console.ReadKey(true).Key;
                 leftPaddle.PaddleMove(keyPressed);
