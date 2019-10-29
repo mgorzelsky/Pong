@@ -12,8 +12,9 @@ namespace Pong
         private Point ballPosition;
         private BallDirection ballDirection;
         Random rnd = new Random();
-        private readonly Timer timer = new Timer(150);
+        private readonly Timer timer = new Timer(170);
         private int angle;
+        private int counter;
 
         //Set a random starting direction and set up the timer used to handle ball movement on object creation.
         public Ball()
@@ -31,11 +32,17 @@ namespace Pong
             ballPosition = new Point(Game.Width / 2, Game.Height / 2);
             ballDirection = (BallDirection)rnd.Next(0, 4);
             timer.Start();
+            timer.Interval = 170;
+            counter = 1;
         }
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             Move();
+
+            if (counter % 100 == 0)
+                timer.Interval -= 10;
+            counter++;
         }
 
         //On timed event update the ballposition. The angle is based on a randomly generated direction that changes 
